@@ -9,5 +9,5 @@ Aquí están los avances para el proyecto de Fundamentos de programación
 - Paso 2:
   Una vez agregados, tener la opción de vender o cerrar el programa.
 - Paso 3:
-  Cuando se escoja vender, que se resten las unidades a vender, que no se puedan vender más de los disponibles
+  Cuando se escoja vender, que se resten las unidades a vender, que no se puedan vender más de los disponibles.
 - Paso 4:
