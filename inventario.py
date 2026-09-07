@@ -72,7 +72,7 @@ pregunta_escoger_vender)
             return print("No puedes dividir entre cero. "), menu(pregunta_texto, pregunta_buscar_prod,
 pregunta_encontro_producto, pregunta_vender,
 pregunta_escoger_vender)
-        print(f" tu resultado es: {num1 / num2}"), menu(pregunta_texto, pregunta_buscar_prod,
+        return print(f" tu resultado es: {num1 / num2}"), menu(pregunta_texto, pregunta_buscar_prod,
         pregunta_encontro_producto, pregunta_vender,
         pregunta_escoger_vender)
 
