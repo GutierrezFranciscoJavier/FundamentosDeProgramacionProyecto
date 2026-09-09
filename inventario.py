@@ -110,7 +110,8 @@ preg_agg_prod = "Escribe el nombre de el producto" \
                 " que quieres agregar: "
 
 pregunta_texto = "Quieres agregar nuevos productos(1), vender(2), " \
-                "usar una calculadora (3) o salir (4)?:" "Escribe 1, 2, 3 o 4: "
+                "calcular el cambio (3) o salir (4)?: " \
+                    "Escribe 1, 2, 3 o 4: "
 
 
 pregunta_buscar_prod = "Escribe el nombre del producto" \
