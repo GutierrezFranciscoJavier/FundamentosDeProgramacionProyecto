@@ -1,136 +1,176 @@
+# Menú. Llama a todas las funciones.
+def menu(pregunta):
+    if pregunta == 3:
+        print("Escribe el dinero recibido: ")
+        num1 = float(input())
+        print("Escribe el precio: ")
+        num2 = float(input())
+        return calcula_cambio(num1, num2)
+    
+    elif pregunta == 5:
+        print("Hasta Luego!!")
+        exit()
+        
+    elif pregunta == 4:
+        #Abre el archivo. solo lee y muestra la lista
+        iniciar_compra = open("Lista.txt", "r")
+        print("Busca que lo que vas a comprar: ")
+        #.readlines() lee todas las lineas del open()
+        lineas_archivo = iniciar_compra.readlines()
+        
+        # Mostramos el inventario actual
+        for linea in lineas_archivo:
+            print(linea.strip())
+        iniciar_compra.close()
+
+        print("Escribe el nombre de lo que quieres comprar: ")
+        producto = input()
+        print("Escribe la cantidad de producto: ")
+        cantidad_compra = int(input())
+        
+        # Usa la lista ya leida,
+        # el producto y la cantidad
+        return comprar(lineas_archivo, producto, cantidad_compra)
+
+    elif pregunta == 2:
+        buscar_producto = input("Escribe el nombre del producto" \
+                        " que quieres encontrar: ")
+        return lista(buscar_producto)
+
+    elif pregunta == 1:
+        agregar_producto = input("Escribe el nombre de el producto "\
+                                "que quieres agregar: ")
+        return agregador(agregar_producto)
+
+    return pregunta
+
+
 # funciones
 
-def agregador(preg_agg_prod):
-    agregar_producto = input(preg_agg_prod)
-
+def agregador(agregar_producto):
     escribir_producto = open("Lista.txt", "a")
     print("Escribe la cantidad: ")
     cantidad = int(input())
 
-        # Pone el nombre del prodcuto y la cantidad en una sola línea
+    prod_y_cant = f"{agregar_producto}-{cantidad}-unidades.\n"
+    escribir_producto.write(prod_y_cant)
 
-    producto_y_cantidad = f"{agregar_producto} tienes {cantidad} unidades.\n"
-    escribir_producto.write(producto_y_cantidad)
-
-        # Muestra al usuario lo que se registró en el archivo
-
-    return print("Acabas de resigstrar",\
+    return print("Acabas de registrar",\
                 "'"+ agregar_producto +"'", "con", cantidad, 
                  "unidades. Cerrando el programa" \
                  " para guardar cambios..."), exit()
 
-# Falta encontrar una mejor manera de conocer \
-# los elementos de el Inventario y para restar las cantidades solicitadas
 
-# Por ahora esta es mi solución:
-
-def lista(buscar_producto, pregunta_enc_prod,
-          pregunta_vender, pregunta_escoger_vender):
+def lista(producto):
+    """Solo hice "evita_error" para crear una (si es que se seleccionara)
+    el 2 en el menu y no hubiera una lista creada."""
+    evita_error = open("Lista.txt", "a")
+    evita_error.close()
     with open("Lista.txt", "r") as leer:
-
         encontrado = False
         for renglon in leer:
-            if buscar_producto in renglon:
+            if producto in renglon:
                 mostrar = renglon.strip()
                 print(renglon.strip())
-                #solo_unidades = renglon.strip("""buscar_producto""")
-                #print(solo_unidades)
                 encontrado = True
                 if encontrado == True:
                     break
+        print("Encontraste lo que buscabas? sí (1), para no (2):")
+        encontro_producto = int(input())
 
-        encontro_producto = input(pregunta_enc_prod)
+        if encontro_producto == 2:
+            return 'Agrega el producto desde el menú.', \
+            pregunta
+        if encontro_producto == 1:
+            return 'Me alegro!', pregunta
 
 
-        if encontro_producto == "1":
-            escoger_vender = input(pregunta_escoger_vender)
-            if escoger_vender == "1":
-                print("HACER LISTA O MATRIZ PARA TRABAJAR CON LAS CANTIDADES")
-                exit()
+def comprar(lineas_archivo, producto, cantidad_compra):
+    #Logica similar a def lista(), solo que ahora si con listas jaja
+    nueva_lista = []
+    encontrado = False
+    producto_suficiente = True
 
-            """ restando_cantidad = buscar_producto - vender
-                if vender is not>= buscar_producto
-                    return print("No tienes esa cantidad de unidades") """
+    for prods in lineas_archivo:
+        if producto in prods:
+            encontrado = True
 
-            if escoger_vender == "2":
-                return print("Trata escribiendo bien, o no lo sé!"), menu(pregunta_texto,
-                pregunta_buscar_prod,
-                pregunta_enc_prod, pregunta_vender,
-                pregunta_escoger_vender)
+            """Esto quita los "-" con los que separa las unidades 
+            del nombre el agregador... En algun punto pensé usar
+            expresiones regulares (con la librería 're')
+            pero parece ser que con strip y split basta"""
+
+            partes = prods.strip().split("-")
+            #convierte los digitos en enteros
+            cantidad_actual = int(partes[1])
             
+            #Verifica si hay esas unidades a la venta
+            if cantidad_compra > cantidad_actual:
+                print(f"No puedes comprar tanto!,Solo quedan "
+                      f"{cantidad_actual} unidades.")
+                producto_suficiente = False
+                #Aqui la linea queda como si nada
+                nueva_lista.append(prods)
             else:
-                print("Una pena, nos vemos!"), menu(pregunta_texto, pregunta_buscar_prod,
-                                                            pregunta_encontro_producto, pregunta_vender,
-                                                            pregunta_escoger_vender)
+                #Se hace la resta
+                nueva_cantidad = cantidad_actual - cantidad_compra
+                print(f"Compraste '{producto}', tenías "
+                      f"{cantidad_actual} y ahora"\
+                      f" tienes {nueva_cantidad} unidades.")
+                
+                #Se escribe sin la cantidad restada
+                nuevo_renglon = f"{producto}-{nueva_cantidad}-unidades.\n"
+                nueva_lista.append(nuevo_renglon)
+        else:
+            nueva_lista.append(prods)
+
+    if not encontrado:
+        print("El producto que escribiste no existe en la lista.")
+        return pregunta
+
+    #Solo guardamos los cambios en el archivo si había suficiente producto
+    if producto_suficiente:
+        #"w" solo escribe
+        archivo_escribir = open("Lista.txt", "w")
+        #es como ".readlines()", pero este escribe
+        archivo_escribir.writelines(nueva_lista)
+        archivo_escribir.close()
+
+    return pregunta
 
 
-def calculadora_cambio_descuento(cambio, precio):
+def calcula_cambio(cambio, precio):
     if cambio < precio:
         print("DINERO INSUFICIENTE")
-        return menu(pregunta_texto, pregunta_buscar_prod,
-pregunta_encontro_producto, pregunta_vender,
-pregunta_escoger_vender)
+        return pregunta
     else:
         return print(f"El cambio es: \
-        {cambio - precio}"),menu(pregunta_texto, pregunta_buscar_prod,
-                                pregunta_encontro_producto, pregunta_vender,
-                                pregunta_escoger_vender)
-
-# Menú. Llama a todas las funciones.
+        {cambio - precio}"),\
+        pregunta
 
 
-def menu(pregunta_texto, pregunta_buscar_prod,
-pregunta_encontro_producto, pregunta_vender,
-pregunta_escoger_vender):
+def calcula_cambio(cambio, precio):
+    if cambio < precio:
+        print("DINERO INSUFICIENTE")
+        return pregunta
+    else:
+        return print(f"El cambio es:\{cambio - precio}"),\
+        pregunta
 
-    pregunta = input(pregunta_texto)
-    if pregunta == "3":
-        num1 = float(input("Escribe el dinero recibido: "))
-        num2 = float(input("Escribe el precio: "))
-        return calculadora_cambio_descuento(num1, num2)
+
+while True:
+    print("Agregar nuevos productos(1), vender(2),"\
+           "calcular el cambio (3), comprar (4) o salir (5)?: ")
+    print("Escribe 1, 2, 3, 4 o 5: ")
     
-    elif pregunta == "4":
-        print("Hasta Luego!!")
-        exit()
+    pregunta = int(input())
+    
+    # Valida el numero:
 
-    elif pregunta == "2":
-        buscar_producto = input(pregunta_buscar_prod)
-        return lista(buscar_producto,pregunta_encontro_producto,
-                    pregunta_vender, pregunta_escoger_vender)
-
-    elif pregunta == "1":
-        return agregador(preg_agg_prod)
-
-    print("Escribe solo 1, 2, 3 o 4")
-    return menu(pregunta_texto, pregunta_buscar_prod,
-pregunta_encontro_producto, pregunta_vender,
-pregunta_escoger_vender)
-
-preg_agg_prod = "Escribe el nombre de el producto" \
-                " que quieres agregar: "
-
-pregunta_texto = "Quieres agregar nuevos productos(1), vender(2), " \
-                "calcular el cambio (3) o salir (4)?: " \
-                    "Escribe 1, 2, 3 o 4: "
-
-
-pregunta_buscar_prod = "Escribe el nombre del producto" \
-                        " que quieres encontrar: "
-
-
-pregunta_encontro_producto = "Encontraste lo que busacabas? \
-sí (1), para no (2):"
-
-
-pregunta_vender = "Cuantas unidades te gustaría vender?:"
-
-
-pregunta_vender = "Cuantas unidades te gustaría vender?:"
-
-
-pregunta_escoger_vender = "Te gustría vender? sí (1), no (2)"
-
-
-menu(pregunta_texto, pregunta_buscar_prod,
-pregunta_encontro_producto, pregunta_vender,
-pregunta_escoger_vender)
+    if pregunta != 1 and pregunta != 2 and pregunta != 3 and\
+          pregunta != 4 and pregunta != 5:
+        print("Escribe solo del 1 al 5")
+    else:
+#Se envia la pregunta al menú. Cuando la función termine
+#el while empieza de nuevo, y reinicia la pregunta
+        menu(pregunta)
