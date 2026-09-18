@@ -62,7 +62,8 @@ def agregador(agregar_producto):
 
 
 def lista(producto):
-    """Solo hice "evita_error" para crear una (si es que se seleccionara)
+    """Solo hice "evita_error" para crear una 
+    (si es que se seleccionara)
     el 2 en el menu y no hubiera una lista creada."""
     evita_error = open("Lista.txt", "a")
     evita_error.close()
@@ -119,7 +120,8 @@ def comprar(lineas_archivo, producto, cantidad_compra):
                       f" tienes {nueva_cantidad} unidades.")
                 
                 #Se escribe sin la cantidad restada
-                nuevo_renglon = f"{producto}-{nueva_cantidad}-unidades.\n"
+                nuevo_renglon = f"{producto}-{nueva_cantidad}-\
+                    unidades.\n"
                 nueva_lista.append(nuevo_renglon)
         else:
             nueva_lista.append(prods)
@@ -128,7 +130,7 @@ def comprar(lineas_archivo, producto, cantidad_compra):
         print("El producto que escribiste no existe en la lista.")
         return pregunta
 
-    #Solo guardamos los cambios en el archivo si había suficiente producto
+    #Solo guarda cambios en el archivo si había suficiente producto
     if producto_suficiente:
         #"w" solo escribe
         archivo_escribir = open("Lista.txt", "w")
@@ -148,16 +150,6 @@ def calcula_cambio(cambio, precio):
         {cambio - precio}"),\
         pregunta
 
-
-def calcula_cambio(cambio, precio):
-    if cambio < precio:
-        print("DINERO INSUFICIENTE")
-        return pregunta
-    else:
-        return print(f"El cambio es:\{cambio - precio}"),\
-        pregunta
-
-
 while True:
     print("Agregar nuevos productos(1), vender(2),"\
            "calcular el cambio (3), comprar (4) o salir (5)?: ")
@@ -169,6 +161,11 @@ while True:
 
     if pregunta != 1 and pregunta != 2 and pregunta != 3 and\
           pregunta != 4 and pregunta != 5:
+        print("Escribe solo del 1 al 5")
+    else:
+#Se envia la pregunta al menú. Cuando la función termine
+#el while empieza de nuevo, y reinicia la pregunta
+        menu(pregunta)
         print("Escribe solo del 1 al 5")
     else:
 #Se envia la pregunta al menú. Cuando la función termine
