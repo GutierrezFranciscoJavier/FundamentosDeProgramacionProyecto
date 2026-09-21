@@ -166,8 +166,3 @@ while True:
 #Se envia la pregunta al menú. Cuando la función termine
 #el while empieza de nuevo, y reinicia la pregunta
         menu(pregunta)
-        print("Escribe solo del 1 al 5")
-    else:
-#Se envia la pregunta al menú. Cuando la función termine
-#el while empieza de nuevo, y reinicia la pregunta
-        menu(pregunta)
