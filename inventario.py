@@ -16,10 +16,10 @@ def menu(pregunta):
         iniciar_compra = open("Lista.txt", "r")
         print("Busca que lo que vas a comprar: ")
         #.readlines() lee todas las lineas del open()
-        lineas_archivo = iniciar_compra.readlines()
+        Lineas_archivo = iniciar_compra.readlines()
         
         # Mostramos el inventario actual
-        for linea in lineas_archivo:
+        for linea in Lineas_archivo:
             print(linea.strip())
         iniciar_compra.close()
 
@@ -30,7 +30,7 @@ def menu(pregunta):
         
         # Usa la lista ya leida,
         # el producto y la cantidad
-        return comprar(lineas_archivo, producto, cantidad_compra)
+        return comprar(Lineas_archivo, producto, cantidad_compra)
 
     elif pregunta == 2:
         buscar_producto = input("Escribe el nombre del producto" \
@@ -62,33 +62,35 @@ def agregador(agregar_producto):
 
 
 def lista(producto):
-    """Solo hice "evita_error" para crear una 
+    print('Resultados: ')
+    print('---------------------------')
+    """ "evita_error" crea una lista
     (si es que se seleccionara)
     el 2 en el menu y no hubiera una lista creada."""
     evita_error = open("Lista.txt", "a")
     evita_error.close()
     with open("Lista.txt", "r") as leer:
-        encontrado = False
         for renglon in leer:
             if producto in renglon:
                 mostrar = renglon.strip()
-                print(renglon.strip())
-                encontrado = True
-                if encontrado == True:
-                    break
-        print("Encontraste lo que buscabas? sí (1), para no (2):")
-        encontro_producto = int(input())
+                print(mostrar)
+                break
+    print("----Fin de los resultados---")
+    while True:
+            print("Encontraste lo que buscabas? si (1), para no (2)")
+            encontro_producto = int(input())
 
-        if encontro_producto == 2:
-            return 'Agrega el producto desde el menú.', \
-            pregunta
-        if encontro_producto == 1:
-            return 'Me alegro!', pregunta
+            if encontro_producto != 1 and encontro_producto != 2:
+                print('Escribe solo 1 o 2.')
+            else:
+                return print('Usa la opción 1 para agregarlo' \
+                ', y lo puedes comprar desde la opción 4'),\
+                print('---------------------------'), menu
 
 
 def comprar(lineas_archivo, producto, cantidad_compra):
-    #Logica similar a def lista(), solo que ahora si con listas jaja
-    nueva_lista = []
+    #Logica similar a def Lista(), solo que ahora si con Listas
+    nueva_Lista = []
     encontrado = False
     producto_suficiente = True
 
@@ -97,9 +99,9 @@ def comprar(lineas_archivo, producto, cantidad_compra):
             encontrado = True
 
             """Esto quita los "-" con los que separa las unidades 
-            del nombre el agregador... En algun punto pensé usar
-            expresiones regulares (con la librería 're')
-            pero parece ser que con strip y split basta"""
+            del nombre el agregador... Pensé en usar
+            expresiones regulares (con la libreria 're'), tal vez
+            la use mas adelante"""
 
             partes = prods.strip().split("-")
             #convierte los digitos en enteros
@@ -111,31 +113,31 @@ def comprar(lineas_archivo, producto, cantidad_compra):
                       f"{cantidad_actual} unidades.")
                 producto_suficiente = False
                 #Aqui la linea queda como si nada
-                nueva_lista.append(prods)
+                nueva_Lista.append(prods)
             else:
                 #Se hace la resta
                 nueva_cantidad = cantidad_actual - cantidad_compra
-                print(f"Compraste '{producto}', tenías "
+                print(f"Compraste '{producto}', tenias "
                       f"{cantidad_actual} y ahora"\
                       f" tienes {nueva_cantidad} unidades.")
                 
                 #Se escribe sin la cantidad restada
                 nuevo_renglon = f"{producto}-{nueva_cantidad}-\
                     unidades.\n"
-                nueva_lista.append(nuevo_renglon)
+                nueva_Lista.append(nuevo_renglon)
         else:
-            nueva_lista.append(prods)
+            nueva_Lista.append(prods)
 
     if not encontrado:
         print("El producto que escribiste no existe en la lista.")
         return pregunta
 
-    #Solo guarda cambios en el archivo si había suficiente producto
-    if producto_suficiente:
+    #Solo guarda cambios en el archivo si habia suficiente producto
+    elif producto_suficiente:
         #"w" solo escribe
         archivo_escribir = open("Lista.txt", "w")
         #es como ".readlines()", pero este escribe
-        archivo_escribir.writelines(nueva_lista)
+        archivo_escribir.writelines(nueva_Lista)
         archivo_escribir.close()
 
     return pregunta
@@ -146,9 +148,7 @@ def calcula_cambio(cambio, precio):
         print("DINERO INSUFICIENTE")
         return pregunta
     else:
-        return print(f"El cambio es: \
-        {cambio - precio}"),\
-        pregunta
+        return print(f"El cambio es: {cambio - precio}"), pregunta
 
 while True:
     print("Agregar nuevos productos(1), vender(2),"\
@@ -159,10 +159,15 @@ while True:
     
     # Valida el numero:
 
-    if pregunta != 1 and pregunta != 2 and pregunta != 3 and\
-          pregunta != 4 and pregunta != 5:
+    if (pregunta != 1 and pregunta != 2 and pregunta != 3 and
+          pregunta != 4 and pregunta != 5):
         print("Escribe solo del 1 al 5")
     else:
-#Se envia la pregunta al menú. Cuando la función termine
+#Se envia la pregunta al menu. Cuando la funcion termine
 #el while empieza de nuevo, y reinicia la pregunta
         menu(pregunta)
+"""Para cumplir con avances futuros, podría agregar
+   un depurador de productos repetidos. O que en su
+   defecto, los sume... pero a fin de cuentas no
+   tener repetidos."""
+'''Empieza a ver como usar matrices en el proyecto!!'''
