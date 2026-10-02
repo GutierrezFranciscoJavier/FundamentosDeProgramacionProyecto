@@ -12,3 +12,6 @@ Aquí están los avances para el proyecto de Fundamentos de programación
   - Si elige 4: Pide al usuario el nombre de el producto que quiere comprar (mostrándole la lista) y la cantidad que desea comprar. Resta la cantidad que compró de la lista y no deja comprar más de lo que ya tienes.
   - Si elige 5: Se cierra el programa.
   Una vez terminada cada acción, se mostrará el menú al usuario.
+
+# Referencias:
+- Ortiz, A., & Martínez, Y. (s.f.). TC1028 Pensamiento computacional para ingeniería: Convenciones de estilo para Python.
