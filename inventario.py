@@ -32,7 +32,7 @@ def menu(pregunta):
         
         # Usa la lista ya leida,
         # el producto y la cantidad
-        return comprar(lineas_archivo, producto, cantidad_compra)
+        return comprar(lineas_archivo, producto, cantidad_compra, pregunta)
 
     elif pregunta == 2:
         buscar_producto = input("Escribe el nombre del producto"
@@ -48,7 +48,7 @@ def menu(pregunta):
 
 
 # funciones
-def agregador(agregar_producto):
+def agregador(agregar_producto, menu):
     """Se encarga de agregar el nombre de el producto que pone
        el usuario, con la cantidad de este mismo"""
     
@@ -65,7 +65,7 @@ def agregador(agregar_producto):
     return menu(5)
 
 
-def lista(producto):
+def lista(producto, pregunta):
     """ "evita_error" crea una lista
     (si es que se seleccionara)
     el 2 en el menu y no hubiera una lista creada."""
@@ -96,7 +96,7 @@ def lista(producto):
                 return pregunta
 
 
-def comprar(lineas_archivo, producto, cantidad_compra):
+def comprar(lineas_archivo, producto, cantidad_compra, pregunta):
     """El usuario elige de que producto se va a sustraer
        la cantidad de su preferencia, se refleja al instante"""
 
@@ -154,7 +154,7 @@ def comprar(lineas_archivo, producto, cantidad_compra):
     return pregunta
 
 
-def calcula_cambio(cambio, precio):
+def calcula_cambio(cambio, precio, pregunta):
 
     """Calcula el cambio a partir de dos entradas: 
        El dinero recibido y el dinero a devolver."""
