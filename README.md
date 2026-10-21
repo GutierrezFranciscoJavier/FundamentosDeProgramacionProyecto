@@ -16,3 +16,4 @@ Aquí están los avances para el proyecto de Fundamentos de programación
 # Referencias:
 - Ortiz, A., & Martínez, Y. (s.f.). TC1028 Pensamiento computacional para ingeniería: Convenciones de estilo para Python.
 - Python Software Foundation. (s. f.). Built-in types: str.rstrip. Python documentation. https://docs.python.org/3/library/stdtypes.html#str.rstrip
+- Bala Priya C. (2022, 20 de octubre). Métodos de cadenas split() y join() en Python: Explicados con ejemplos. freeCodeCamp. https://www.freecodecamp.org/espanol/news/metodos-de-cadenas-split-y-join-en-python/
