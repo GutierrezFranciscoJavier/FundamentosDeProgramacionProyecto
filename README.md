@@ -17,3 +17,6 @@ Aquí están los avances para el proyecto de Fundamentos de programación
 - Ortiz, A., & Martínez, Y. (s.f.). TC1028 Pensamiento computacional para ingeniería: Convenciones de estilo para Python.
 - Python Software Foundation. (s. f.). Built-in types: str.rstrip. Python documentation. https://docs.python.org/3/library/stdtypes.html#str.rstrip
 - Bala Priya C. (2022, 20 de octubre). Métodos de cadenas split() y join() en Python: Explicados con ejemplos. freeCodeCamp. https://www.freecodecamp.org/espanol/news/metodos-de-cadenas-split-y-join-en-python/
+- Python Guides. (s. f.). Print in the same line in Python. https://pythonguides.com/print-in-the-same-line-in-python/
+- Python Software Foundation. (s. f.). time — Acceso y conversiones de tiempo: time.sleep(). Documentación de Python. https://docs.python.org/es/3/library/time.html#time.sleep
+- El Blog del Programador. (2026, 11 de octubre). Cómo imprimir en Python sin una nueva línea de forma controlada. https://elblogdelprogramador.com/posts/como-imprimir-en-python-sin-una-nueva-linea-de-forma-controlada/
