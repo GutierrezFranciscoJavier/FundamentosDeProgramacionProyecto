@@ -1,7 +1,23 @@
+# Librerias
+import time
+
 # Variables
 SEPARADOR = '---------------------------'
 
 # funciones
+def disenio(texto, signo, tiempo):
+
+    """
+    Utiliza time para que, dado un texto y un tiempo, muestre un simbolo
+    uno tras otro en una misma linea (a modo de "pantalla de carga").
+    """
+
+    for vueltas in range(6):
+        print(texto+(signo*vueltas), end='\r')
+        operacion = (tiempo*vueltas)/0.89
+        time.sleep(operacion)
+
+
 def pedir_nombre(mensaje):
 
     """
@@ -11,7 +27,7 @@ def pedir_nombre(mensaje):
     nombre = input(mensaje).strip()
 
     while nombre == "":
-        print("Debes escribir algo...")
+        print("Debes escribir algo")
         nombre = input(mensaje).strip()
 
     return nombre
@@ -40,7 +56,7 @@ def cargar_inventario():
     inventario = []
 
     with open("Lista.txt", "a"):
-        print("Cargando Inventario...")
+        disenio("Cargando Inventario",".", 0.19)
 
     with open("Lista.txt", "r") as archivo:
         for linea in archivo:
@@ -60,6 +76,7 @@ def guardar_inventario(inventario):
 
     """Guarda cada producto y su cantidad en el archivo."""
 
+    disenio("Guardando Inventario", "~", 0.28)
     with open("Lista.txt", "w") as archivo:
         for producto in inventario:
             archivo.write(f"{producto[0]}-{producto[1]}\n")
@@ -121,7 +138,7 @@ def buscar_producto(nombre):
     Busca coincidencias en los nombres de los productos, 
     donde no importa si esta en minusculas o mayusculas
     """
-    
+
     inventario_listo = cargar_inventario()
     resultados = []
 
@@ -149,7 +166,7 @@ def mostrar_inventario():
     if len(resultados) == 0:
         return "El inventario está vacío."
 
-    return "Inventario:\n" + SEPARADOR + "\n" + "\n".join(resultados)
+    return "\nInventario:\n" + SEPARADOR + "\n" + "\n".join(resultados)
 
 
 def pedir_dinero(mensaje):
@@ -180,20 +197,24 @@ def menu(pregunta):
         hacer el programa a traves de lo recibido en pregunta"""
 
     if pregunta == 1:
+        disenio("Abriendo agregador", ".", 0.07)
         nombre = pedir_nombre("Escribe el nombre del producto: ")
         cantidad = pedir_cantidad("Escribe la cantidad: ")
         print(agregador(nombre, cantidad))
 
     elif pregunta == 2:
+        disenio("Abriendo buscador", ".", 0.07)
         nombre = pedir_nombre("Escribe el producto que buscas: ")
         print(buscar_producto(nombre))
 
     elif pregunta == 3:
+        disenio("Abriendo calculadora", ".", 0.07)
         dinero = pedir_dinero("Escribe el dinero recibido: ")
         precio = pedir_dinero("Escribe el precio: ")
         print(calcular_cambio(dinero, precio))
 
     elif pregunta == 4:
+        disenio("Abriendo compras", ".", 0.07)
         print(mostrar_inventario())
         nombre = pedir_nombre("Escribe el producto que quieres comprar: ")
         cantidad = pedir_cantidad("Escribe la cantidad que quieres comprar: ")
@@ -201,6 +222,7 @@ def menu(pregunta):
 
 
 # Parte principal de el programa
+
 pregunta = 0
 
 while pregunta != 5:
@@ -214,3 +236,4 @@ while pregunta != 5:
         print("Escribe solo una opción del 1 al 5.")
 
 print("Hasta luego!")
+disenio("Cerrando programa", ".", 0.05)
