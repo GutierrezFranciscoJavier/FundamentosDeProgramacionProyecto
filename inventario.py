@@ -1,5 +1,6 @@
 # Librerias
 import time
+import math
 
 # Variables
 SEPARADOR = '---------------------------'
@@ -35,8 +36,10 @@ def pedir_nombre(mensaje):
 
 def pedir_cantidad(mensaje):
 
-    """Pide una cantidad entera mayor que cero. Usado por todas las funciones
-       que necesitan manipular numeros."""
+    """
+    Pide una cantidad entera mayor que cero. Usado por todas las funciones
+    que necesitan manipular numeros.
+    """
 
     cantidad = int(input(mensaje))
 
@@ -47,16 +50,28 @@ def pedir_cantidad(mensaje):
     return cantidad
 
 
+def guardar_inventario(inventario):
+
+    """Guarda cada producto y su cantidad en el archivo."""
+
+    disenio("Guardando Inventario", "~", 0.28)
+    with open("Lista.txt", "w") as archivo:
+        for producto in inventario:
+            archivo.write(f"{producto[0]}-{producto[1]}\n")
+
+
 def cargar_inventario():
 
-    """Toma el archivo y recorre cada una de sus lineas
-       y agrega tanto el nombre como la cantidad a una lista dentro
-       de la lista inventario"""
+    """
+    Toma el archivo y recorre cada una de sus lineas y agrega
+    tanto el nombre como la cantidad a una lista dentro
+    de la lista inventario
+    """
 
     inventario = []
 
     with open("Lista.txt", "a"):
-        disenio("Cargando Inventario",".", 0.19)
+        disenio("Abriendo Inventario",".", 0.04)
 
     with open("Lista.txt", "r") as archivo:
         for linea in archivo:
@@ -72,21 +87,12 @@ def cargar_inventario():
     return inventario
 
 
-def guardar_inventario(inventario):
-
-    """Guarda cada producto y su cantidad en el archivo."""
-
-    disenio("Guardando Inventario", "~", 0.28)
-    with open("Lista.txt", "w") as archivo:
-        for producto in inventario:
-            archivo.write(f"{producto[0]}-{producto[1]}\n")
-
-
 def agregador(nombre, cantidad):
 
-    """Agrega un producto o suma unidades si ya está registrado.
-       Hace todo minusculas y asi compara 
-       la entrada vs lo que hay en la lista"""
+    """
+    Agrega un producto o suma unidades si ya está registrado.
+    Hace todo minusculas y asi compara la entrada vs lo que hay en la lista
+    """
 
     inventario = cargar_inventario()
     encontrado = False
@@ -108,7 +114,8 @@ def agregador(nombre, cantidad):
 
 def comprar(nombre, cantidad):
 
-    """Resta del inventario las unidades compradas, si hay suficientes"""
+    """Dada un entrada busca si se encuentra en el inventario y resta las
+       las unidades compradas (si hay suficientes)"""
 
     inventario = cargar_inventario()
     nombre_buscado = nombre.strip().lower()
@@ -150,7 +157,7 @@ def buscar_producto(nombre):
 
     if len(resultados) == 0:
         return "No se encontraron productos con ese nombre."
-    return "Resultados:\n" + SEPARADOR + "\n" + "\n".join(resultados)
+    return "\nResultados:\n" + SEPARADOR + "\n" + "\n".join(resultados)
 
 
 def mostrar_inventario():
@@ -169,32 +176,85 @@ def mostrar_inventario():
     return "\nInventario:\n" + SEPARADOR + "\n" + "\n".join(resultados)
 
 
-def pedir_dinero(mensaje):
+def promedio():
 
-    """Pide una cantidad de dinero que no sea negativa.
-       Muy parecida a pedir"""
+    """ """
+
+    inventario = cargar_inventario()
+    suma = 0
+    productos_en_total = 0
+
+    for producto in inventario:
+            suma += producto[1]
+            productos_en_total += 1
     
-    cantidad = float(input(mensaje))
+    prom = suma/productos_en_total
 
-    while cantidad < 0:
-        print("La cantidad no puede ser negativa.")
-        cantidad = float(input(mensaje))
-    return cantidad
+    return prom
 
 
-def calcular_cambio(dinero, precio):
-    """Calcula el cambio o informa si el dinero no es suficiente."""
-    if dinero < precio:
-        return "DINERO INSUFICIENTE."
+def varianza():
 
-    cambio = dinero - precio
-    return f"El cambio es: {cambio:.2f}"
+    """    """
+    inventario = cargar_inventario()
+    media = promedio()
+    resultados_resta = 0
+    total_datos = 0
 
+    for productos in inventario:
+        operacion = productos[1]-media
+        al_cuadrado = operacion*operacion
+        resultados_resta += al_cuadrado
+        total_datos += 1
+
+    varianza_unidades = resultados_resta/total_datos
+
+    return varianza_unidades
+
+
+def desv_estandar():
+
+    """    """
+
+    varianza_inventario = varianza()
+    desviacion_estandar = math.sqrt(varianza_inventario)
+
+    return f'{desviacion_estandar:.4f}'
+
+def calculos(cantidad):
+
+    """  
+    Recibe: cantidad (entero que representa la opcion elegida por el usuario)
+
+    Esta funcion manda a llamar a la funcionalidad elegida por el usuario
+    Puede entenderse como un sub-menu
+
+    Devuelve: la varianza, el promedio o la desviacion estandar de las
+    unidades de todo lo que se encuentre dentro del inventario
+
+    """
+
+    resultado_media = promedio()
+    resultado_varianza = varianza()
+
+    if cantidad == 1:
+        return f'La varianza en inventario es de: {varianza()}'
+    elif cantidad == 2:
+        return f'El promedio de unidades en inventario es de: {promedio()}'
+    elif cantidad == 3:
+        return f'La desviacion estandar en inventario es: {desv_estandar()}'
+    
 
 def menu(pregunta):
     
-    """Desde aqui se accede a todas las funciones que puede
-        hacer el programa a traves de lo recibido en pregunta"""
+    """
+    Recibe: pregunta (Entero que controla las distintas opciones del programa)
+
+    Desde aqui se accede a todas las funciones que puede
+    hacer el programa a traves de lo recibido en pregunta
+
+    Devuelve: Una funcion de acuerdo a la opcion selecccionada
+    """
 
     if pregunta == 1:
         disenio("Abriendo agregador", ".", 0.07)
@@ -208,10 +268,17 @@ def menu(pregunta):
         print(buscar_producto(nombre))
 
     elif pregunta == 3:
-        disenio("Abriendo calculadora", ".", 0.07)
-        dinero = pedir_dinero("Escribe el dinero recibido: ")
-        precio = pedir_dinero("Escribe el precio: ")
-        print(calcular_cambio(dinero, precio))
+        disenio("Abriendo calculos", ".", 0.07)
+        cantidad = pedir_cantidad(
+            "Mostrar varianza en el inventario (1), "+
+            "Mostrar promedio de unidades en el inventario (2), "+
+            "Mostrar desviacion estandar de unidades en el inventario (3): ")
+
+        # Revisa que se eligan las opciones definidas
+        while cantidad != 1 and cantidad != 2 and cantidad != 3:
+            cantidad = pedir_cantidad("Solo puedes escoger (1), (2) o (3): ")
+
+        print(calculos(cantidad))
 
     elif pregunta == 4:
         disenio("Abriendo compras", ".", 0.07)
@@ -226,8 +293,9 @@ def menu(pregunta):
 pregunta = 0
 
 while pregunta != 5:
-    print("\nAgregar producto (1), buscar (2), calcular cambio (3) "
-            "comprar (4) o salir (5).")
+    print("\nAgregar producto (1), Buscar (2),"+
+            "Estadísticas de el inventario (3),"+
+            " Comprar (4) o salir (5).")
     pregunta = int(input("Escribe una opción del 1 al 5: "))
 
     if pregunta >= 1 and pregunta <= 4:
@@ -236,4 +304,4 @@ while pregunta != 5:
         print("Escribe solo una opción del 1 al 5.")
 
 print("Hasta luego!")
-disenio("Cerrando programa", ".", 0.05)
+disenio("Cerrando", ".", 0.05)
