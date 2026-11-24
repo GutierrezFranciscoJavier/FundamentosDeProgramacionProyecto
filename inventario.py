@@ -9,8 +9,16 @@ SEPARADOR = '---------------------------'
 def disenio(texto, signo, tiempo):
 
     """
+    Recibe: Una cadena de texto que varia entre funciones para mostrarlo en la
+    pantalla de carga, los signos (que son una cadena de texto)
+    que se agregan conforme el tiempo y recibe un entero
+    (el tiempo) que es manipulado por la funcion para tener el tiempo 
+    con el que aparecen los signos
+
     Utiliza time para que, dado un texto y un tiempo, muestre un simbolo
     uno tras otro en una misma linea (a modo de "pantalla de carga").
+
+    Devuelve: La cadena texto con los signos siendo agregados con el tiempo
     """
 
     for vueltas in range(6):
@@ -22,7 +30,11 @@ def disenio(texto, signo, tiempo):
 def pedir_nombre(mensaje):
 
     """
+    Recibe: una cadena de texto que varia entre funciones 
+
     Esta funcion hace que al recibir un nombre, nunca se pueda quedar vacio
+    
+    Devuelve: El nombre sin espacios al inicio y al final de la cadena 
     """
 
     nombre = input(mensaje).strip()
@@ -37,8 +49,11 @@ def pedir_nombre(mensaje):
 def pedir_cantidad(mensaje):
 
     """
-    Pide una cantidad entera mayor que cero. Usado por todas las funciones
-    que necesitan manipular numeros.
+    Recibe: Un mensaje para colocarlo en el input de la peticion de cantidad.
+    
+    Usado por todas las funciones que necesitan manipular numeros.
+
+    Devuelve: Un numero entero
     """
 
     cantidad = int(input(mensaje))
@@ -52,7 +67,12 @@ def pedir_cantidad(mensaje):
 
 def guardar_inventario(inventario):
 
-    """Guarda cada producto y su cantidad en el archivo."""
+    """
+    Recibe: La matriz del inventario
+
+    Guarda cada producto registrado en la funcion agregador
+    su nombre y su cantidad de unidades en el archivo.
+    """
 
     disenio("Guardando Inventario", "~", 0.28)
     with open("Lista.txt", "w") as archivo:
@@ -66,6 +86,8 @@ def cargar_inventario():
     Toma el archivo y recorre cada una de sus lineas y agrega
     tanto el nombre como la cantidad a una lista dentro
     de la lista inventario
+
+    Devuelve: El inventario en forma de matriz
     """
 
     inventario = []
@@ -90,8 +112,15 @@ def cargar_inventario():
 def agregador(nombre, cantidad):
 
     """
+    Recibe: una cadena de texto dada por el usuario que debe incluir el nombre
+    de un producto y un entero que debe incluir la cantidad de unidades de
+    el producto que escribe en la cadena.
+
     Agrega un producto o suma unidades si ya está registrado.
     Hace todo minusculas y asi compara la entrada vs lo que hay en la lista
+
+    Devuele: Una cadena te texto que indica el nombre del producto
+    y las unidades agregadas
     """
 
     inventario = cargar_inventario()
@@ -114,8 +143,15 @@ def agregador(nombre, cantidad):
 
 def comprar(nombre, cantidad):
 
-    """Dada un entrada busca si se encuentra en el inventario y resta las
-       las unidades compradas (si hay suficientes)"""
+    """
+    Recibe: nombre (una cadena de texto dada por el usuario)
+    cantidad (un entero dado por el usuario)
+
+    Busca el nombre y si se encuentra en el inventario y resta las
+    las unidades escritas en cantidad (si hay suficientes)
+
+    Devuelve: Una cadena de texto que confirma los cambios realizados
+    """
 
     inventario = cargar_inventario()
     nombre_buscado = nombre.strip().lower()
@@ -142,8 +178,13 @@ def comprar(nombre, cantidad):
 def buscar_producto(nombre):
 
     """
+    Recibe: nombre del producto (string ingrsado por el usuario)
+
     Busca coincidencias en los nombres de los productos, 
     donde no importa si esta en minusculas o mayusculas
+    y los guarda en una lista
+
+    Devuelve: la en forma de cadena con un formato estetico
     """
 
     inventario_listo = cargar_inventario()
@@ -162,7 +203,12 @@ def buscar_producto(nombre):
 
 def mostrar_inventario():
 
-    """Devuelve el inventario en forma de texto."""
+    """
+    Usa la funcion cargar_inventario y desarma el inventario para mostrarlo
+    en la forma de cadena de texto
+
+    Devuelve: el inventario en forma de texto.
+    """
 
     inventario = cargar_inventario()
     resultados = []
@@ -178,7 +224,13 @@ def mostrar_inventario():
 
 def promedio():
 
-    """ """
+    """
+    Usa la funcion cargar_inventario para tomar los valores de las unidades
+    en la matriz y los suma, donde tambien lleva la cuenta de los productos
+    recorridos
+
+    Devuelve: El valor numerico del promedio (entero o flotante)
+    """
 
     inventario = cargar_inventario()
     suma = 0
@@ -195,7 +247,13 @@ def promedio():
 
 def varianza():
 
-    """    """
+    """
+    Toma la funcion promedio y cargar_inventario para 
+    calcular la varianza entre la cantidad del producto
+    que evalua y el promedio
+
+    Devuelve: La varianza en formato numerico (entero o flotante)
+    """
     inventario = cargar_inventario()
     media = promedio()
     resultados_resta = 0
@@ -214,7 +272,13 @@ def varianza():
 
 def desv_estandar():
 
-    """    """
+    """
+
+    Utiliza la funcion varianza para calcular la desviacion estandar y aplica
+    una raiz cuadrada sobre ese resultado para obtener la desviacion estandar
+
+    Devuelve: La desviacion estandar calculada (solo con cuatro decimales)
+    """
 
     varianza_inventario = varianza()
     desviacion_estandar = math.sqrt(varianza_inventario)
@@ -253,7 +317,7 @@ def menu(pregunta):
     Desde aqui se accede a todas las funciones que puede
     hacer el programa a traves de lo recibido en pregunta
 
-    Devuelve: Una funcion de acuerdo a la opcion selecccionada
+    Devuelve: Una funcion de acuerdo a el numero seleccionado en pregunta
     """
 
     if pregunta == 1:
