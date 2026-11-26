@@ -9,11 +9,13 @@ SEPARADOR = '---------------------------'
 def disenio(texto, signo, tiempo):
 
     """
-    Recibe: Una cadena de texto que varia entre funciones para mostrarlo en la
-    pantalla de carga, los signos (que son una cadena de texto)
-    que se agregan conforme el tiempo y recibe un entero
-    (el tiempo) que es manipulado por la funcion para tener el tiempo 
-    con el que aparecen los signos
+    texto: Una cadena de texto que varia entre funciones para mostrarlo en la
+    pantalla de carga
+
+    simbolo: Son una cadena de texto de un caracter
+
+    tiempo: Un entero que manipula el tiempo con el que agrega simbolo tras
+    simbolo
 
     Utiliza time para que, dado un texto y un tiempo, muestre un simbolo
     uno tras otro en una misma linea (a modo de "pantalla de carga").
@@ -30,7 +32,7 @@ def disenio(texto, signo, tiempo):
 def pedir_nombre(mensaje):
 
     """
-    Recibe: una cadena de texto que varia entre funciones 
+    mensaje: una cadena de texto que varia entre funciones 
 
     Esta funcion hace que al recibir un nombre, nunca se pueda quedar vacio
     
@@ -49,7 +51,7 @@ def pedir_nombre(mensaje):
 def pedir_cantidad(mensaje):
 
     """
-    Recibe: Un mensaje para colocarlo en el input de la peticion de cantidad.
+    mensaje: Un mensaje para colocarlo en el input de la peticion de cantidad.
     
     Usado por todas las funciones que necesitan manipular numeros.
 
@@ -68,7 +70,7 @@ def pedir_cantidad(mensaje):
 def guardar_inventario(inventario):
 
     """
-    Recibe: La matriz del inventario
+    inventario: La matriz del inventario
 
     Guarda cada producto registrado en la funcion agregador
     su nombre y su cantidad de unidades en el archivo.
@@ -112,8 +114,10 @@ def cargar_inventario():
 def agregador(nombre, cantidad):
 
     """
-    Recibe: una cadena de texto dada por el usuario que debe incluir el nombre
-    de un producto y un entero que debe incluir la cantidad de unidades de
+    nombre: Una cadena de texto dada por el usuario que debe incluir el nombre
+    de un producto
+
+    cantidad: Un entero que debe incluir la cantidad de unidades de
     el producto que escribe en la cadena.
 
     Agrega un producto o suma unidades si ya está registrado.
@@ -144,8 +148,9 @@ def agregador(nombre, cantidad):
 def comprar(nombre, cantidad):
 
     """
-    Recibe: nombre (una cadena de texto dada por el usuario)
-    cantidad (un entero dado por el usuario)
+    nombre: Una cadena de texto dada por el usuario
+
+    cantidad: Un entero dado por el usuario
 
     Busca el nombre y si se encuentra en el inventario y resta las
     las unidades escritas en cantidad (si hay suficientes)
@@ -178,7 +183,7 @@ def comprar(nombre, cantidad):
 def buscar_producto(nombre):
 
     """
-    Recibe: nombre del producto (string ingrsado por el usuario)
+    nombre: el nombre del producto (string ingrsado por el usuario)
 
     Busca coincidencias en los nombres de los productos, 
     donde no importa si esta en minusculas o mayusculas
@@ -254,6 +259,7 @@ def varianza():
 
     Devuelve: La varianza en formato numerico (entero o flotante)
     """
+    
     inventario = cargar_inventario()
     media = promedio()
     resultados_resta = 0
@@ -273,7 +279,6 @@ def varianza():
 def desv_estandar():
 
     """
-
     Utiliza la funcion varianza para calcular la desviacion estandar y aplica
     una raiz cuadrada sobre ese resultado para obtener la desviacion estandar
 
@@ -295,7 +300,6 @@ def calculos(cantidad):
 
     Devuelve: la varianza, el promedio o la desviacion estandar de las
     unidades de todo lo que se encuentre dentro del inventario
-
     """
 
     resultado_media = promedio()
@@ -312,7 +316,7 @@ def calculos(cantidad):
 def menu(pregunta):
     
     """
-    Recibe: pregunta (Entero que controla las distintas opciones del programa)
+    pregunta: Entero que controla las distintas opciones del programa
 
     Desde aqui se accede a todas las funciones que puede
     hacer el programa a traves de lo recibido en pregunta
